@@ -697,13 +697,7 @@ The system has been tested with the following demonstration queries:
 
 All queries return accurate, contextual answers based on the scraped data.
 
-## License
 
-This project is created for educational and assessment purposes.
-
-## Contact
-
-For questions or feedback, please contact [Your Name] at [Your Email]
 
 ---
 
