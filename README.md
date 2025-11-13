@@ -366,6 +366,72 @@ User receives detailed answer + source citations
 
 ---
 
+## 🔄 System Data Flow
+
+### **STEP 1: WEB SCRAPING**
+```
+Bank of Maharashtra Website (53 pages)
+    ↓
+[scraper.py]
+    ↓
+data/raw/scraped_data.json (Raw HTML + Text)
+```
+
+### **STEP 2: DATA PROCESSING**
+```
+data/raw/scraped_data.json
+    ↓
+[data_processor.py - Clean & Consolidate]
+    ↓
+data/processed/knowledge_base.txt (Clean Text)
+    ↓
+[data_processor.py - Chunk]
+    ↓
+data/processed/chunks.json (778 chunks)
+```
+
+### **STEP 3: VECTOR INDEXING**
+```
+data/processed/chunks.json
+    ↓
+[rag_pipeline.py - Create Embeddings]
+    ↓
+data/vector_store/chroma_db/ (778 embeddings)
+```
+
+### **STEP 4: QUERY PROCESSING**
+```
+User Question
+    ↓
+[Convert to Embedding]
+    ↓
+[Search ChromaDB → TOP 10 chunks]
+    ↓
+[Send to GPT-4]
+    ↓
+Answer with Sources
+```
+
+---
+
+## 📊 Complete Pipeline Visualization
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                        DATA PIPELINE                             │
+└─────────────────────────────────────────────────────────────────┘
+
+COLLECTION → PROCESSING → INDEXING → RETRIEVAL → GENERATION
+    ↓            ↓           ↓           ↓            ↓
+  Scraper    Processor   Embeddings   Search       GPT-4
+  53 pages   778 chunks   ChromaDB    TOP 10      Answer
+```
+
+---
+
+
+---
+
 ## 🎨 Architectural Decisions
 
 ### 1. Library Selection & Rationale
@@ -571,13 +637,18 @@ Answer:
 - ✅ Guides LLM to comprehensive responses
 - ✅ Encourages structured output
 
-## AI Tools Used
+## Tools Used
 
 During development, the following AI tools were leveraged:
 
-1. **Kiro AI Assistant**: For project planning, code generation, and architecture design
-2. **GitHub Copilot**: For code completion and boilerplate generation
-3. **ChatGPT**: For debugging and problem-solving
+1. **Vs Code**: For project planning, code generation, and architecture design
+2. **GitHub Copilot (Claude Sonnet 4.5)**: For code completion and boilerplate generation
+3. **OpenAI GPT-4**: Deep Learning LLM Model
+4. **Streamlit**: For UI design and development
+5. **LangChain**: For data processing and embedding generation
+6. **ChromaDB**: For vector storage and retrieval
+7. **BeautifulSoup4**: For web scraping and HTML parsing
+
 
 ## Challenges Faced
 
